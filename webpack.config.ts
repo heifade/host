@@ -15,7 +15,8 @@ export default function(env: any, argv: any) {
   let config: webpack.Configuration = {
     mode: "development",
     entry: {
-      index: path.resolve(src, "./index/index.tsx")
+      index: path.resolve(src, "./index/index.tsx"),
+      data: path.resolve(src, "./main/data.ts"),
     },
     output: {
       filename: "[chunkhash:8].[name].js",
@@ -85,7 +86,7 @@ export default function(env: any, argv: any) {
             outputPath: "imgs/",
             limit: 120
           }
-        }
+        },
       ]
     },
     optimization: {
@@ -112,7 +113,7 @@ export default function(env: any, argv: any) {
       new CleanWebpackPlugin(["dist", "dist", "build-temp"]),
       new HtmlWebpackPlugin({
         title: "host",
-        template: "./public/index.html"
+        template: "./public/index.html",
       }),
       new MiniCssExtractPlugin({
         filename: "[chunkhash:8].[name].css",

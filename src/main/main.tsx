@@ -1,33 +1,34 @@
 import * as React from "react";
-import { getUrlList, Type, getTypeList, UrlData } from "../urlList";
+import { getUrlList } from "./dataHelper";
+import { types } from "./data";
 import { Menu, Icon } from "antd";
 let styles = require("./main.less");
 
 export interface MainProps {
   current?: any[];
-  type?: Type;
+  type?: number;
 }
 
 export class MainComponent extends React.Component<MainProps, any> {
   constructor(props: any, context: any) {
     super(props, context);
 
-    let menu = getTypeList()[0];
+    let menu = types[0];
 
     this.state = {
-      current: menu.key,
-      currSelectedMenu: menu.key
+      current: String(menu.id),
+      currSelectedMenu: String(menu.id)
     };
   }
 
   onMenuClick = (e: any) => {
     this.setState({
-      currSelectedMenu: e.key,
-      type: Type[e.key]
+      currSelectedMenu: String(e.key),
+      type: String(e.key)
     });
   };
 
-  onUrlClick = (data: UrlData) => {
+  onUrlClick = (data: any) => {
     window.open(data.url);
   };
 
@@ -40,13 +41,13 @@ export class MainComponent extends React.Component<MainProps, any> {
             selectedKeys={[this.state.currSelectedMenu]}
             mode="horizontal"
           >
-            {getTypeList().map(item => (
-              <Menu.Item key={item.key}>{item.value}</Menu.Item>
+            {types.map(item => (
+              <Menu.Item key={item.id}>{item.text}</Menu.Item>
             ))}
           </Menu>
         </header>
         <section>
-          {getUrlList({ type: this.state.type }).map((item, index) => (
+          {getUrlList(this.state.type).map((item, index) => (
             <div key={index} onClick={() => this.onUrlClick(item)}>
               {item.text}
             </div>
