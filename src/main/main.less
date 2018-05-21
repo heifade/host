@@ -12,14 +12,16 @@
     flex-grow: 1;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
 
-    div {
+    .btn {
       @color: #4395ff;
       flex-grow: 0;
       height: 30px;
-      padding: 5px;
+      padding: 5px 10px;
       background-color: #fff;
-      border: solid 1px #ccc;
+      border: solid 1px #d1d1d1;
       color: @color;
       cursor: pointer;
 

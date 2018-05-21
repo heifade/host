@@ -1,12 +1,11 @@
 import * as React from "react";
-import { getUrlList } from "./dataHelper";
+import { getUrlList, Type } from "./dataHelper";
 import { types } from "./data";
 import { Menu, Icon } from "antd";
 let styles = require("./main.less");
 
 export interface MainProps {
-  current?: any[];
-  type?: number;
+  type?: string;
 }
 
 export class MainComponent extends React.Component<MainProps, any> {
@@ -16,20 +15,32 @@ export class MainComponent extends React.Component<MainProps, any> {
     let menu = types[0];
 
     this.state = {
-      current: String(menu.id),
-      currSelectedMenu: String(menu.id)
+      currSelectedMenu: menu.id,
+      type: menu.id
     };
   }
 
   onMenuClick = (e: any) => {
     this.setState({
-      currSelectedMenu: String(e.key),
-      type: String(e.key)
+      currSelectedMenu: e.key,
+      type: e.key
     });
   };
 
   onUrlClick = (data: any) => {
     window.open(data.url);
+  };
+
+  subMenu = (item: Type, index: number): any => {
+    if (item.sub && item.sub.length) {
+      return (
+        <Menu.SubMenu key={index} title={item.text}>
+          {item.sub.map((item1, index1) => this.subMenu(item1, index1))}
+        </Menu.SubMenu>
+      );
+    } else {
+      return <Menu.Item key={item.id}>{item.text}</Menu.Item>;
+    }
   };
 
   render() {
@@ -41,14 +52,12 @@ export class MainComponent extends React.Component<MainProps, any> {
             selectedKeys={[this.state.currSelectedMenu]}
             mode="horizontal"
           >
-            {types.map(item => (
-              <Menu.Item key={item.id}>{item.text}</Menu.Item>
-            ))}
+            {types.map((item, index) => this.subMenu(item, index))}
           </Menu>
         </header>
         <section>
           {getUrlList(this.state.type).map((item, index) => (
-            <div key={index} onClick={() => this.onUrlClick(item)}>
+            <div className={styles.btn} key={index} onClick={() => this.onUrlClick(item)}>
               {item.text}
             </div>
           ))}
