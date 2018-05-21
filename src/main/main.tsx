@@ -57,7 +57,11 @@ export class MainComponent extends React.Component<MainProps, any> {
         </header>
         <section>
           {getUrlList(this.state.type).map((item, index) => (
-            <div className={styles.btn} key={index} onClick={() => this.onUrlClick(item)}>
+            <div
+              className={styles.btn}
+              key={index}
+              onClick={() => this.onUrlClick(item)}
+            >
               {item.text}
             </div>
           ))}
